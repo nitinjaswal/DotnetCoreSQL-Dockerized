@@ -1,0 +1,23 @@
+services:
+  product.api:
+    image: ${DOCKER_REGISTRY-}productapi
+    build:
+      context: .
+      dockerfile: Product.API/Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+    - docker_sqlserver
+    environment:
+      # Connection string for the database, using the service name 'db' as the hostname
+      - ConnectionStrings__DefaultConnection=Server=docker_sqlserver,1433;Database=Products;User Id=sa;Password=Welcome@123;TrustServerCertificate=True;
+
+  docker_sqlserver:
+   image: mcr.microsoft.com/mssql/server:2022-latest
+   environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Welcome@123 # Set a strong password for the 'sa' user
+   ports:
+      - "1433:1433" # Optional: Expose SQL Server port if needed for external tools
+
+    
