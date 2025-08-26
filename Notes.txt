@@ -1,0 +1,86 @@
+Why Docker containers?
+Containers vs Virtual machine
+Containers vs Images
+Working with public images
+Creating images via docker file
+Creating images via the .NET DK
+Image versioning
+Publishing images
+Containers in the DevOps lifecycle
+
+Why Docker containers?
+1) Understand how deployment works before virtualization and its issues like
+	-OS/.NET run time version mismatch
+	-Missing files/settings
+	-Not enough hardware resources
+	-Dependency conflicts
+	-Missing Permissions
+	-Hardcoded paths
+
+2) Virtualization solution
+	-Each application has its own isolated area by virtualizing the Hardware using Hypervisor
+	-Each VM has its own complete OS
+	-VM image creation takes time
+	-VM boot time is slow and it needs to boot whole OS
+	-VM provisioning too slow
+
+3) Containers: Next level virtualization
+	-Docker is container runtime
+	-It virtualizes the OS and sits between OS Kernel and application.
+	-Containers only include what our application needs
+	-Environment consistency
+	-Containers uses host machine OS unlike VN which have their own OS and is a resource overhead
+
+4) Why we use VM if containers are so efficient?
+	-We can use VM and within each VM we have Container runtime
+	-e.g in VM#1 we have Linux and in VM#2 we have windows and within these we can have containers totally isolated
+
+
+Docker Desktop
+1) Application that runs docker engine and container management tool
+	-Docker daemon(dockerd) manages all the containers, images inside docker desktop. it is the core 
+ 	-Docker GUI : provided by docker desktop
+	-Docker engine includes: Docker CLI+ Docker API + Docker Daemon(dockerd)
+
+Getting started with Docker
+	-docker version: check docker version
+	-docker pull "image-name": pull docker image from docker hub
+	-docker images: list all images in your docker engine by name, tag, image ID , created and size
+	-docker pull "image-name":tagname: to get specific image version
+	-docker run "image-name": run container from image
+	-docker ps:  list all running containers
+	-docker ps --all: list containers
+	-docker run -d --name nginx-test nginx: -d(detach mode, will not show any interactive session), nginx-test is the image name we have provided
+	-docker stop nginx-test: stop docker container "nginx-test"
+	-docker rm nginx-test: remove "nginx-test" container
+	-docker run -d --rm -p:8080:80 --name nginx-test nginx: to map local port with container port
+	-docker build: creates docker image from the docker file
+Docker images vs containers
+	- Docker image is basically a blue print or template which is needed to run your application like:
+		-Install OS
+		-Install .NET runtime
+		-Copy app files
+		-Install dependencies
+		-Configure environment
+		-Run app
+	- Docker images are read only templates/immutable. You cannot change them once they are created. If you need to change something , you will have to start with a new container , 	  that includes your update
+	- Docker container is actual running instance of docker image. We can create many container instances from image
+
+Docker Hub vs docker registry: ?
+
+Docker tags
+1) Tag is just a versioning of image
+2) e.g Image tag 1.0: Initial Release->tag 1.1: Security path->1.2:Performance improvements
+3) Maintain multiple versions of the image
+
+
+Port mapping : Map localhost port with nginx container port. Docker containers are isolated, meaning they have their own network stack separate from the host. This isolation is crucial for security and managing dependencies. To access a container's services from the host or other devices, you need to map a port on the container to a port on the host, essentially creating a bridge between the two networks. This mapping allows you to interact with the container's services using the host's IP address and the mapped port. 
+
+Building container with Dockerfiles:
+1)Dockerfile includes: OS, Runtime, dependencies, run app
+2)docker build
+
+Creating docker file for .net 9 asp.net core
+Docker multi stage build
+creating new docker image versions using tag
+
